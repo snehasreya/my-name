@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:email="http://www.mulesoft.org/schema/mule/email" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/email/current/mule-email.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="8cf9bf8a-c690-46e1-9b48-ffa3959f98e9" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<email:smtp-config name="Email_SMTP" doc:name="Email SMTP" doc:id="301c7738-cc03-48ee-aa42-6bfb2a81f03e" >
+		<email:smtp-connection host="smtp.gmail.com" port="587" user="snehaariga4@gmail.com" password="ylbopabbqqiwezbh" >
+			<email:properties >
+				<email:property key="mail.smtp.starttls.enable" value="true" />
+			</email:properties>
+		</email:smtp-connection>
+	</email:smtp-config>
+	<flow name="emailFlow" doc:id="91368c34-5587-4803-9303-821f73aad171" >
+		<http:listener doc:name="Listener" doc:id="36f92f4c-1880-44ea-8194-e8e0dd5d3fcc" config-ref="HTTP_Listener_config" path="/mail"/>
+		<email:send doc:name="Send" doc:id="1d1ff380-41d1-482a-ba80-c55845975d3a" config-ref="Email_SMTP" fromAddress="snehaariga4@gmail.com" subject="Hello GoogMorning">
+			<email:to-addresses >
+				<email:to-address value="nagalakshmidaka1@gmail.com" />
+				<email:to-address value="aswanimarneni24@gmail.com" />
+			</email:to-addresses>
+		</email:send>
+		<set-payload value="successfully completed" doc:name="Set Payload" doc:id="15edd888-6680-458a-875a-a4732650b02c" />
+		<logger level="INFO" doc:name="Logger" doc:id="903ecf14-9164-4f93-885a-a0b74f7dfe9e" message="sucessfully completed"/>
+	</flow>
+</mule>
